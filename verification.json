@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "checks": [
+    "All page images load",
+    "53 runway looks",
+    "Homepage visible",
+    "Short number rejected",
+    "Unknown number rejected",
+    "General guest lookup",
+    "VIP guest lookup",
+    "Companion seats",
+    "Confirm entry opens folders and changes local status",
+    "Folder program",
+    "Folder runway",
+    "Folder exhibition",
+    "Folder about",
+    "Directions navigation",
+    "Guide tab program",
+    "Guide tab runway",
+    "Guide tab exhibition",
+    "Guide tab about",
+    "Guide tab directions",
+    "Escape closes modal",
+    "No horizontal overflow 320x568",
+    "No horizontal overflow 390x844",
+    "No horizontal overflow 430x932",
+    "No horizontal overflow 1280x900",
+    "Reload resets entry status (no server record)",
+    "Service worker registration",
+    "No JavaScript runtime exceptions"
+  ],
+  "count": 27,
+  "note": "Rendered with local Chromium. Test roster only. System has no Korean font installed; screenshots may show missing glyphs. Original system-font CSS is preserved.",
+  "original_homepage_pixel_match": true,
+  "additional_checks": [
+    "Duplicate seats rejected without overwriting existing roster",
+    "Phone missing leading zero rejected without overwriting existing roster",
+    "Deployment excludes raw input examples and internal project files"
+  ]
+}

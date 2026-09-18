@@ -1,0 +1,11 @@
+dist/
+private/
+__pycache__/
+*.pyc
+previews/
+.secrets/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
