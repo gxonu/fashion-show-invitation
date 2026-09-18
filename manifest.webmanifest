@@ -1,0 +1,17 @@
+{
+  "name": "O.F.F. Fashion Show Ticket",
+  "short_name": "O.F.F. Ticket",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#eee9df",
+  "theme_color": "#eee9df",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
