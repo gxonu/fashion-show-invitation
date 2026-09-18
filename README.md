@@ -2,11 +2,13 @@
 
 저장소: https://github.com/gxonu/fashion-show-invitation
 
+GitHub Pages 미리보기: https://gxonu.github.io/fashion-show-invitation/
+
 참고 사이트: https://incredible-cranachan-c3d6c5.netlify.app/
 
 원본의 공개 HTML·CSS·JavaScript와 이미지로 화면을 동일하게 재현한 정적 웹사이트입니다.
 현재 원본 행사명·일정·작품 설명·이미지는 그대로이며, 원본 참석자 명단은 가져오지 않았습니다.
-실제 명단 대신 가상 테스트 데이터만 들어 있습니다. 코드는 공개 저장소로 관리하며, 웹사이트 자체는 아직 공개 배포하지 않았습니다.
+실제 명단 대신 가상 테스트 데이터만 들어 있습니다. 코드는 공개 저장소로 관리하며, 원본 디자인과 가상 데이터의 미리보기를 GitHub Pages에 배포합니다.
 
 ## 실행
 
@@ -53,6 +55,7 @@ HTML 파일을 직접 더블클릭하면 CSV 조회가 브라우저 보안 정�
 - `examples/demo-guests.csv`: 명단 입력 형식 예제 (가상 데이터)
 - `scripts/prepare_seats.py`: 전화번호를 해시 처리하고 CSV 검증
 - `scripts/build.py`: 공개할 파일만 `dist/`에 복사
+- `scripts/deploy_pages.py`: 공개 파일만 gh-pages 브랜치로 배포 (Git 인증 필요)
 - `netlify.toml`: Netlify 자동 빌드·배포 설정
 - `reference-assets.json`: 참고 이미지 출처와 파일 검증 정보
 
@@ -91,7 +94,26 @@ python3 scripts/build.py
 
 ## 배포
 
-이 프로젝트는 아직 배포하지 않았습니다.
+### GitHub Pages
+
+공개 미리보기 주소: https://gxonu.github.io/fashion-show-invitation/
+
+`main`은 원본 코드, `gh-pages`는 공개 웹사이트 파일만 관리합니다.
+GitHub Pages의 배포 소스는 `gh-pages` 브랜치의 루트(`/`)입니다.
+소스 수정 후 main에 커밋·푸시하고 다음 명령으로 사이트를 갱신합니다.
+
+```bash
+python3 scripts/deploy_pages.py
+```
+
+현재 구성은 main 푸시만으로 사이트가 자동 갱신되지 않습니다. 위 배포 명령이 필요합니다.
+이 명령은 기존 Git 인증을 사용합니다. PAT를 코드·README·명령 인수에 넣지 마세요.
+GitHub Pages 배포가 완료되기까지 잠시 시간이 걸릴 수 있습니다.
+별도 서버 운영이나 도메인 구매 없이 휴대폰과 PC에서 공개 주소로 접속할 수 있습니다.
+원격 개발 서버를 종료해도 GitHub Pages는 계속 호스팅합니다.
+
+### Netlify로 옮기는 경우
+
 수동 배포: `python3 scripts/build.py` 실행 후 **dist 폴더만** Netlify에 업로드합니다.
 Git 연동: 이 폴더를 프로젝트의 기준 폴더로 설정하면 netlify.toml의 명령으로 빌드합니다.
 Netlify에서 사이트를 공개한 뒤 제공하는 `이름.netlify.app` 주소로 공유하면 됩니다.
