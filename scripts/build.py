@@ -19,6 +19,8 @@ def main():
         shutil.copy2(ROOT / name, destination / name)
     shutil.copytree(ROOT / "assets", destination / "assets")
     (destination / ".nojekyll").touch()
+    if (ROOT / "mockup").is_dir():
+        shutil.copytree(ROOT / "mockup", destination / "mockup")
     (destination / "_headers").write_text(
         "/seats.csv\n  Cache-Control: no-store\n"
         "/service-worker.js\n  Cache-Control: no-cache\n", encoding="utf-8")

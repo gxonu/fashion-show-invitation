@@ -1,0 +1,13 @@
+{
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "file": "assets/editorial-hero.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: main editorial photograph for a Korean fashion show invitation website mockup. Primary request: create a refined avant-garde fashion editorial photograph, portrait 2:3 composition. Scene: warm pale ivory photographic studio with a tall translucent scrim and soft sculptural shadow. Subject: one adult East Asian female fashion model in a fully opaque sculptural black tailored dress with voluminous pleated ivory fabric wrapped over one shoulder, standing confidently, head and full garment visible, natural elegant pose, slick dark hair. Style: independent fashion magazine, shot on medium-format film, photorealistic natural skin texture, tactile fabric, subtle grain, restrained and sophisticated. Composition: full-length figure occupying the central 65 percent, generous breathing room, usable for both portrait and square web crops. Lighting: soft directional daylight with deep but natural fabric shadows. Palette: ivory, ink black, muted warm grey. No writing, no letters, no logos, no watermark, no border, no collage, no UI. Produce the photograph itself."
+    },
+    {
+      "file": "assets/textile-study.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: secondary editorial still-life photograph for a minimalist Korean fashion exhibition invitation website. Primary request: an artistic sculptural study of pleated ivory organza and dense black fabric, suspended and folded into a single organic ribbon form in an empty warm off-white gallery. No human figures. Tactile fabric edges and soft material, sculptural silhouette balanced above a low pale stone plinth. Medium-format film photograph, subtle grain, natural side light, delicate shadow on the floor, quiet and sophisticated avant-garde fashion magazine direction. Landscape 3:2 composition, art object centered with generous negative space. Palette warm cream, ivory, ink black. This is an abstract fashion textile installation, not a product advertisement. No text, letters, logos, watermark, border or UI."
+    }
+  ]
+}

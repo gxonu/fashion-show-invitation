@@ -4,6 +4,8 @@
 
 GitHub Pages 미리보기: https://gxonu.github.io/fashion-show-invitation/
 
+새 디자인 목업: https://gxonu.github.io/fashion-show-invitation/mockup/
+
 참고 사이트: https://incredible-cranachan-c3d6c5.netlify.app/
 
 원본의 공개 HTML·CSS·JavaScript와 이미지로 화면을 동일하게 재현한 정적 웹사이트입니다.
@@ -134,3 +136,11 @@ index.html의 styles.css/script.js 버전도 갱신하세요. 로컬 개발 중 
 상세 결과는 `verification.json`에 있습니다. 화면 캡처는 로컬 `previews/`에만 보관하며 Git과 배포에서 제외합니다.
 검증 서버에는 한글 폰트가 없어 캡처의 한글이 네모로 보일 수 있습니다.
 사이트는 원본과 동일하게 방문자 기기의 시스템 폰트를 사용합니다.
+
+## 디자인 목업 02
+
+`mockup/`에 기존 사이트와 별도의 패션 매거진 스타일 시안을 추가했습니다.
+아이보리·버건디 색상, 큰 타이포, 직접 생성한 화보와 패브릭 이미지를 사용합니다.
+모바일/PC 반응형, 티켓 팝업, 일반·VIP·동반 좌석 조회, 53개 Look 검색·상세 보기, 행사 안내가 동작합니다.
+기존 시안의 화면과 이미지는 유지합니다. 목업도 공통 테스트 명단 `seats.csv`를 사용합니다.
+이미지는 built-in image_gen으로 생성했으며 자산은 `mockup/assets/`, 전체 프롬프트는 `mockup/image-prompts.json`에 보관합니다.
