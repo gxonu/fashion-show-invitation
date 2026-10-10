@@ -11,6 +11,9 @@ const message = document.querySelector('#lookup-message');
 const submit = document.querySelector('#lookup-button');
 const submitText = submit.querySelector('p');
 const summary = document.querySelector('#seat-summary');
+const pageSummary = summary.cloneNode(true);
+pageSummary.id = 'page-seat-summary';
+summary.before(pageSummary);
 const seatMap = document.querySelector('#seat-map');
 const mapWrapper = seatMap.parentElement;
 for (const [zone, rows] of Object.entries(seatLayout)) {
@@ -126,12 +129,18 @@ function showSeatResult(matches) {
   location.textContent = result.seats.map(seat => seat === 'VIP' ? 'VIP · V1 · V2 · 선착순' : /^V[12]$/.test(seat) ? `VIP · ${seat} · 선착순` : labelSeat(seat)).join(' / ');
   summary.append(location);
   summary.hidden = false;
-  for (const element of resultMap.querySelectorAll('[data-zone]')) {
-    element.classList.toggle('highlight', result.firstCome.includes(element.dataset.zone));
-    element.classList.toggle('zone-first-come', result.firstCome.includes(element.dataset.zone));
-  }
-  for (const id of result.assigned) {
-    resultMap.querySelector(`[data-seat="${id}"]`)?.classList.add('seat-active');
+  // Commit both views only after a successful lookup. Editing or cancelling keeps
+  // the last confirmed result on page 06 until another number is found.
+  pageSummary.replaceChildren(...[...summary.childNodes].map(node => node.cloneNode(true)));
+  pageSummary.hidden = false;
+  for (const map of [seatMap, resultMap]) {
+    for (const element of map.querySelectorAll('[data-zone]')) {
+      element.classList.toggle('highlight', result.firstCome.includes(element.dataset.zone));
+      element.classList.toggle('zone-first-come', result.firstCome.includes(element.dataset.zone));
+    }
+    for (const chair of map.querySelectorAll('[data-seat]')) {
+      chair.classList.toggle('seat-active', result.assigned.includes(chair.dataset.seat));
+    }
   }
   phone.value = '';
   phone.blur();
