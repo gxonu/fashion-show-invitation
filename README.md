@@ -28,7 +28,16 @@
 | `client-baseline-2026-10-10` | 개발 분리 시점의 소스 보존 태그 |
 
 현재 공개 배포 기준 커밋은 `gh-pages`의 `881fa956ea8ab0bf07f0c5a190cebf738ec275c6`입니다.
-`main` 또는 `develop`에 커밋·푸시해도 공개 사이트가 자동 변경되지 않습니다. `develop`은 소스 브랜치이며 별도 공개 미리보기 URL은 아직 없습니다.
+`main` 또는 `develop`에 커밋·푸시해도 사이트가 자동 변경되지 않습니다. 각 버전은 아래 명령으로 따로 배포합니다.
+
+- 클라이언트 공개 버전: https://gxonu.github.io/fashion-show-invitation/spectrum/
+- 개발 미리보기: https://gxonu.github.io/fashion-show-invitation/develop/spectrum/
+
+`develop`에서 개발 미리보기를 갱신합니다. 현재 전체 명단과 테스트 번호를 함께 사용하며, `--preview`는 `gh-pages`의 `develop/` 경로만 변경합니다.
+
+```bash
+python3 scripts/deploy_pages.py --preview --roster private/rosters/lookup.json --include-demo
+```
 
 개발은 `git switch develop` 후 진행합니다. 기존 로컬 미리보기에서 확인하고 변경을 `develop`에 커밋·푸시합니다. 클라이언트가 확인한 변경만 PR로 `main`에 병합한 다음, 공개 반영 요청이 있을 때 `main`에서 아래 명령을 실행합니다.
 
@@ -36,7 +45,7 @@
 python3 scripts/deploy_pages.py --roster private/rosters/lookup.json --include-demo
 ```
 
-배포 스크립트는 `main`에서만 실행할 수 있습니다. 공개 원본 엑셀·PDF가 아닌 변환된 조회 데이터만 배포하며, `private/` 자료는 소스 브랜치에 포함하지 않습니다. 행사 운영 배포에서는 테스트 번호를 제외하려면 `--include-demo`를 생략합니다.
+공개 버전 배포는 `main`에서만, `--preview` 배포는 `develop`에서만 실행할 수 있습니다. 공개 버전을 배포해도 개발 미리보기 경로는 유지됩니다. 엑셀·PDF 원본 대신 변환된 조회 데이터만 배포하며, `private/` 자료는 소스 브랜치에 포함하지 않습니다. 행사 운영 배포에서는 테스트 번호를 제외하려면 `--include-demo`를 생략합니다.
 피그마의 문구·행사 내용은 임의로 변경하지 않으며, 새 디자인 개선은 `develop`에서 관리합니다.
 
 ## 실행
