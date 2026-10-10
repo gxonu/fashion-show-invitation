@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build and push public files to gh-pages using your configured Git credentials."""
 from pathlib import Path
+import argparse
 import shutil
 import subprocess
 import sys
@@ -12,7 +13,19 @@ def git(directory, *args):
     return subprocess.check_output(["git", *args], cwd=directory, text=True).strip()
 
 def main():
-    subprocess.run([sys.executable, str(ROOT / "scripts/build.py")], check=True)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--roster", type=Path, help="Prepared lookup JSON to publish as downloadable static data")
+    parser.add_argument("--include-demo", action="store_true", help="Keep test numbers alongside the supplied roster")
+    args = parser.parse_args()
+    branch = git(ROOT, "branch", "--show-current")
+    if branch != "main":
+        parser.error("Production deployment is only allowed from main. Review and merge develop into main first.")
+    build = [sys.executable, str(ROOT / "scripts/build.py")]
+    if args.roster:
+        build.extend(["--roster", str(args.roster.resolve())])
+    if args.include_demo:
+        build.append("--include-demo")
+    subprocess.run(build, check=True)
     remote = git(ROOT, "remote", "get-url", "origin")
     name = git(ROOT, "config", "user.name")
     email = git(ROOT, "config", "user.email")

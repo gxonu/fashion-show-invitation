@@ -8,6 +8,11 @@
     Cache-Control = "no-store"
 
 [[headers]]
+  for = "/spectrum/seats.csv"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
   for = "/service-worker.js"
   [headers.values]
     Cache-Control = "no-cache"

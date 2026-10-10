@@ -1,5 +1,6 @@
 dist/
 private/
+/meetings/
 __pycache__/
 *.pyc
 previews/

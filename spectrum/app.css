@@ -1,0 +1,59 @@
+:root{color-scheme:dark;--font-sans:Inter,Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;--background:#050505;--line:#2a2a2a;--muted:#a7a7a7;--accent:#66d9ff;font-family:var(--font-sans);color:#fff;background:#050505}
+*{box-sizing:border-box;border:0 solid}body,p,h1,h2,h3,figure{margin:0}body{min-width:280px}button,input,a{font:inherit;-webkit-tap-highlight-color:transparent}button{color:inherit;background:transparent;cursor:pointer;padding:0}button,a{touch-action:manipulation}a{color:inherit;text-decoration:none}img{display:block}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:4px}button:disabled{opacity:.5;cursor:wait}[hidden]{display:none!important}#main{max-width:390px;margin:auto}.page{height:100svh;min-height:650px;width:100%;overflow:hidden}.page-header,.page-footer{flex:none}.page-header [data-menu]{overflow:visible;position:relative}.page-header [data-menu]::after{content:"";position:absolute;inset:-13px}.page-header [data-go]{overflow:visible;min-height:44px}.page-content{flex:1 1 auto;width:100%;min-height:0;overflow:auto;overscroll-behavior-y:contain;scrollbar-width:thin;scrollbar-color:#34343b transparent}.page-content>[data-name$="콘텐츠"]{min-height:100%;overflow:visible}.page-content [data-name="섹션 제목"]{overflow:visible}.page-content h1{font-weight:400}.page-footer{position:relative;z-index:1;background:var(--background);padding-bottom:env(safe-area-inset-bottom);height:calc(74px + env(safe-area-inset-bottom))}.page-footer button{min-height:44px}.page-footer button:hover{color:var(--accent)}.sr-only,.skip-link:not(:focus){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.skip-link:focus{position:fixed;top:8px;left:8px;z-index:100;background:white;color:black;padding:12px}
+/* Home is a composed poster. Keep its Figma image slots proportional to the viewport. */
+.home-stage{min-height:0;width:100%}.home-stage>[data-name="1"]{left:10.256%;top:34.625%;width:38.462%;height:auto;aspect-ratio:150/295}.home-stage>[data-name="주제 1"]{left:37.179%;top:70%;width:58.462%;height:auto;aspect-ratio:228/87}.home-stage>.home-info{top:auto;bottom:14px;left:50%;translate:-50% 0;height:48px;overflow:visible;justify-content:center}.home-ticket{position:absolute;left:54.36%;top:44.75%;height:48px;width:100px;border:1px solid white;border-radius:999px;font-size:14px;font-weight:500;background:#202020}.home-ticket:hover{background:#333}.home-info:hover{color:var(--accent)}
+.directions-content{display:flex;flex-direction:column;gap:16px;padding:22px 24px 20px}.directions-content>[data-name="약도"],.directions-content>[data-name="교통편"],.directions-content>.map-link{position:relative;top:auto;left:auto;width:100%}.directions-content>[data-name="섹션 제목"]{margin:0}.directions-content>.map-link{margin-top:auto;min-height:56px;flex-shrink:0}.map-link:hover{border-color:var(--accent)}
+.seat-map-wrap{width:100%;position:relative;flex-shrink:0;overflow:hidden}.seat-map{width:342px;max-width:none;transform:scale(var(--map-scale,1));transform-origin:top left}.seat-map [data-zone].highlight [data-name="Rectangle"]{background:#66d9ff;border-color:#66d9ff;box-shadow:0 0 3px #66d9ff55}.seat-map [data-zone].highlight{outline:1px solid #66d9ff;outline-offset:3px;border-radius:2px}.seat-map [data-zone].zone-first-come [data-name="row"]:first-of-type [data-name="Rectangle"]{background:transparent;border-color:#666}.page-content [data-name="디자이너 콘텐츠"]{padding-bottom:28px}.page-content [data-name="크리에이티브 크레딧"]{margin-top:10px}
+dialog{padding:0;margin:auto;width:calc(100% - 48px);max-width:342px;max-height:calc(100dvh - 32px);background:#0b0b0e;color:white;overflow:auto;border:0;border-radius:20px;box-shadow:0 22px 48px #000b}dialog::backdrop{background:rgba(2,2,4,.85)}body:has(dialog[open]){overflow:hidden}.ticket-panel{position:relative;left:auto;top:auto;width:100%;height:auto;min-height:488px;padding:22px 24px;border:1px solid #34343b;border-radius:20px;overflow:hidden}.ticket-panel>[data-name="안내"]{margin-top:0}.ticket-panel>[data-name="전화번호 입력"]{width:100%;min-width:0}.ticket-panel [data-name="입력 필드"]{width:100%;min-width:0}.ticket-panel [data-name="확인 영역"]{width:100%}#phone{background:transparent;border:0;min-width:0;width:100%;color:white;font-size:16px}#phone::placeholder{color:#6f6f76}#lookup-message{white-space:normal;min-height:15px;line-height:1.5}#lookup-message[data-state="error"]{color:#ff9b9b}#lookup-button{width:100%}#lookup-button:hover{background:#e9faff}#ticket-dialog [data-close]{flex-shrink:0}#menu-dialog{padding:24px;border:1px solid #34343b}.menu-top{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:16px}.menu-top h2{font-size:14px;font-weight:400}.menu-top button{font-size:26px;width:36px;height:36px;border:1px solid #666;border-radius:50%}#menu-dialog nav{display:grid}#menu-dialog nav button{display:flex;align-items:center;gap:18px;text-align:left;min-height:49px;font-size:13px;border-bottom:1px solid var(--line)}#menu-dialog nav button span:first-child{font-size:10px;color:var(--accent)}#menu-dialog nav button span:last-child{margin-left:auto;color:#777}#menu-dialog nav button[aria-current="page"]{color:var(--accent)}.menu-ticket{width:100%;padding:15px;border:1px solid #555;border-radius:8px;margin-top:20px;font-size:12px}
+@media(min-width:600px){body{background:#101010}#main{box-shadow:0 0 0 1px #202020}}@media(max-width:360px){.page-header,.page-footer{padding-inline:18px}.page-content h1{font-size:25px}.page-header [data-name="페이지 정보"]{gap:9px}.home-ticket{width:90px;font-size:13px}.ticket-panel{padding-inline:20px}.ticket-panel>[data-name="스펙트럼 엣지"]{width:calc(100% - 40px);left:20px}.ticket-panel [data-name="티켓 노치"]{display:none}#menu-dialog{padding:18px}.page-content [data-name="행사 개요"]{white-space:normal}.page-content [data-name="정보 행"]{gap:12px}.page-content [data-name="정보 행"]>p:last-child{text-align:right;flex-shrink:1}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+/* Replace the directions frame's absolute stacking with normal content flow. */
+.directions-content{position:relative;inset:auto;width:100%}
+.directions-content>[data-name="섹션 제목"],.directions-content>[data-name="약도"],.directions-content>[data-name="교통편"],.directions-content>.map-link{position:relative;inset:auto;width:100%;flex-shrink:0}
+#exhibition h1{min-width:0;width:100%;max-width:300px}
+.ticket-panel [data-node-id="24:172"]{left:auto;right:-9px}
+@media(max-width:360px){.ticket-panel [data-name="티켓 노치"]{display:block}}
+
+/* One mobile layout at every device size. Keep the footer inside short screens. */
+#main{width:100%;max-width:390px}
+.page{height:100dvh;min-height:0;padding-top:env(safe-area-inset-top)}
+#home{min-height:460px}
+.page-content{-webkit-overflow-scrolling:touch}
+.home-stage>.home-info{bottom:max(14px,env(safe-area-inset-bottom))}
+
+.ticket-panel [data-close]{min-width:44px;min-height:44px}
+.ticket-panel [data-name="확인 영역"]{gap:14px}
+@media(max-height:700px){
+  .home-stage>[data-name="1"]{width:min(38.462%,calc((100dvh - env(safe-area-inset-top)) * .1875))}
+  .home-stage>[data-name="주제 1"]{width:min(58.462%,calc((100dvh - env(safe-area-inset-top)) * .285))}
+  dialog{max-height:calc(100dvh - 24px)}
+  .ticket-panel{min-height:440px;gap:22px}
+}
+
+
+
+
+
+/* Assigned guests illuminate only their PDF-mapped chair(s). */
+.seat-map [data-seat].seat-active{background:var(--accent);border-color:#e6faff;box-shadow:0 0 0 1px #c1f1ff,0 0 7px 2px #66d9ffb3;position:relative;z-index:1}
+
+/* A single, non-interactive identity and location summary above the seating map. */
+.guest-result{width:100%;border-left:2px solid var(--accent);padding:2px 0 2px 12px;display:flex;flex-direction:column;gap:5px;overflow-wrap:anywhere}
+.guest-name{font-size:18px;line-height:1.4;font-weight:500;color:#fff}
+.guest-location{font-size:12px;line-height:1.6;color:var(--accent)}
+
+/* Rotated VIP outlines extend beyond their layout boxes, within the map padding. */
+.seat-map [data-name="스테이지 전체"],.seat-map [data-name="V1V2구역"],.seat-map [data-zone]{overflow:visible}
+.seat-map [data-name="V1V2구역"]{gap:15px;left:4px}
+
+/* Keep the field's own border as the focus cue, without an inner blue rectangle. */
+#phone:focus,#phone:focus-visible{outline:none;box-shadow:none;caret-color:#fff}
+.ticket-panel [data-name="입력 필드"]:focus-within{border-color:#a7a7ad}
+.ticket-panel [data-name="팝업 헤더"]{height:auto;min-height:44px;overflow:visible}
+
+/* Ticket result: identity, location and map only. The underlying page stays put. */
+.ticket-result{padding:22px 18px 18px;border:1px solid #34343b;border-radius:20px;display:flex;flex-direction:column;gap:18px;background:#0b0b0e}
+.ticket-result-header{display:flex;align-items:flex-start;gap:12px}
+.ticket-result .guest-result{min-width:0;flex:1;padding-left:10px}
+.ticket-result .guest-name{font-size:20px}
+.ticket-result [data-close]{width:44px;height:44px;flex-shrink:0}

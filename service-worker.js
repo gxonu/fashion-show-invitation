@@ -43,6 +43,9 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+  // The new invitation loads its current roster directly; never cache its pages or data.
+  const spectrumPath = new URL("spectrum/", self.registration.scope).pathname;
+  if (new URL(event.request.url).pathname.startsWith(spectrumPath)) return;
   if (event.request.method !== "GET") {
     return;
   }
