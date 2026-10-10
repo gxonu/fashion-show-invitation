@@ -1,4 +1,6 @@
 /seats.csv
   Cache-Control: no-store
+/spectrum/seats.csv
+  Cache-Control: no-store
 /service-worker.js
   Cache-Control: no-cache
