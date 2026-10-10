@@ -24,12 +24,22 @@ test('CSV supports BOM, quoted names, embedded commas and empty allocations', ()
   assert.throws(() => parseCSV('phone_hash,seat\n"unfinished'));
   assert.throws(() => parseCSV('phone,seat\n01000000001,A01'));
 });
-test('zones remain distinct from assigned seats and no unverified VIP location is guessed', () => {
+test('V1 and V2 are one shared VIP area, separate from assigned chairs', () => {
   const result = summarizeSeats([{ seat:'V1' }, { seat:'B-a-1' }, { seat:'B-a-2' }, { seat:'V1' }, { seat:'V01' }]);
-  assert.deepEqual(result.seats, ['V1','B-a-1','B-a-2','V01']);
-  assert.deepEqual(result.zones, ['B','V1']);
-  assert.deepEqual(result.firstCome, ['V1']);
+  assert.deepEqual(result.seats, ['VIP','B-a-1','B-a-2','V01']);
+  assert.deepEqual(result.zones, ['B','V1','V2']);
+  assert.deepEqual(result.firstCome, ['V1','V2']);
   assert.deepEqual(result.assigned, ['B-a-1','B-a-2']);
+});
+test('all legacy VIP labels illuminate both areas without an assigned chair', () => {
+  for (const seat of ['V1', 'V2', 'VIP']) {
+    for (const vip of ['', 'vip']) {
+      const result = summarizeSeats([{seat, vip}]);
+      assert.deepEqual(result.seats, ['VIP']);
+      assert.deepEqual(result.firstCome, ['V1','V2']);
+      assert.deepEqual(result.assigned, []);
+    }
+  }
 });
 test('VIP guests never receive an assigned chair, even if a provisional seat is present', () => {
   const result = summarizeSeats([{ seat:'A-a-1', vip:'vip' }]);

@@ -47,11 +47,11 @@ export function seatZone(seat) {
 export function summarizeSeats(rows) {
   const seats = [...new Set(rows.map(row => {
     const value = normalizeSeat(row.seat);
-    // A VIP flag never assigns a numbered chair. Retain an explicit V1/V2 zone.
-    if (String(row.vip || '').toLowerCase() === 'vip') return /^V[12]$/.test(value) ? value : 'VIP';
+    // V1 and V2 form one first-come VIP area, including older zone-specific data.
+    if (String(row.vip || '').toLowerCase() === 'vip' || /^V[12]$/.test(value)) return 'VIP';
     return value || row.seat.trim();
   }).filter(Boolean))];
-  const firstCome = [...new Set(seats.flatMap(seat => seat === 'VIP' ? ['V1', 'V2'] : /^V[12]$/.test(seat) ? [seat] : []))];
+  const firstCome = seats.includes('VIP') ? ['V1', 'V2'] : [];
   const assigned = seats.filter(seat => normalizeSeat(seat) && !/^V/.test(seat));
   const zones = [...new Set([...assigned.map(seatZone), ...firstCome])];
   return {

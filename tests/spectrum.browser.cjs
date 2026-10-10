@@ -85,13 +85,13 @@ const results = [];
     results.push('Invalid and unknown numbers rejected');
     for (const [phone,seat,expected] of [
       ['01000000001','A-a-1',['A-a-1']],
-      ['01000000002','V1',[]],
-      ['01000000004','V2',[]],
+      ['01000000002','VIP',[]],
+      ['01000000004','VIP',[]],
       ['01000000003','B-a-1 · B-a-2 · B-a-3',['B-a-1','B-a-2','B-a-3']],
     ]) {
       await lookup(phone);
       await page.locator('#seat-summary').waitFor({ state: 'visible' });
-      assert.equal(await page.locator('#seat-summary .guest-location').textContent(), /^V[12]$/.test(seat) ? `VIP · ${seat} · 선착순` : seat.replaceAll(' · ', ' / '));
+      assert.equal(await page.locator('#seat-summary .guest-location').textContent(), seat === 'VIP' ? 'VIP · V1 · V2 · 선착순' : seat.replaceAll(' · ', ' / '));
       assert.equal(await page.locator('#seat-summary .guest-name').textContent(), '테스트 관객 박상민');
       assert.equal(await page.locator('#seat-summary').getAttribute('class'), 'guest-result');
       assert.equal(await page.locator('#seat-summary button').count(), 0);
@@ -105,8 +105,9 @@ const results = [];
       assert.equal(await page.locator('#ticket-seat-map [data-seat]').count(), 180);
       assert.equal(await page.locator('.seat-marker').count(), 0);
       assert.equal(await page.locator('#ticket-seat-map [data-zone="A"].highlight, #ticket-seat-map [data-zone="B"].highlight').count(), 0);
-      if (seat === 'V1' || seat === 'V2') {
-        assert.equal(await page.locator(`#ticket-seat-map [data-zone="${seat}"].zone-first-come`).count(), 1);
+      if (seat === 'VIP') {
+        assert.equal(await page.locator('#ticket-seat-map .zone-first-come').count(), 2);
+        assert.equal(await page.locator('#seat-map .zone-first-come').count(), 2);
         await page.screenshot({ path: path.join(output, 'vip-seat.png') });
       }
       if (expected.length === 1) await page.screenshot({ path: path.join(output, 'assigned-seat.png') });
@@ -135,7 +136,7 @@ const results = [];
     await page.locator('#lookup-message[data-state="error"]').waitFor();
     await page.locator('#seat-form [data-close]').click();
     assert.equal(await page.locator('#seat-map .seat-active').count(), 3);
-    for (const [number, chairs, vip] of [['01000000002',0,1], ['01000000001',1,0]]) {
+    for (const [number, chairs, vip] of [['01000000002',0,2], ['01000000001',1,0]]) {
       await reopenTicket(number);
       await page.locator('#ticket-result').waitFor({state:'visible'});
       assert.equal(new URL(page.url()).hash, '#seats');

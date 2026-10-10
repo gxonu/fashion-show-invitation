@@ -35,8 +35,7 @@ print(json.dumps(guests))
       assert.equal(await page.locator('#about').isVisible(), true);
       if (/^v/i.test(example.seat)) {
         assert.equal(await page.locator('#ticket-seat-map .seat-active').count(), 0);
-        if (example.seat === 'VIP') assert.equal(await page.locator('#ticket-seat-map .zone-first-come').count(), 2);
-        else assert.equal(await page.locator(`#ticket-seat-map [data-zone="${example.seat.toUpperCase()}"].zone-first-come`).count(), 1);
+        assert.equal(await page.locator('#ticket-seat-map .zone-first-come').count(), 2);
       } else {
         assert.equal(await page.locator('#ticket-seat-map .seat-active').count(), 1);
         assert.equal(await page.locator('#ticket-seat-map .seat-active').getAttribute('data-seat'), example.seat);
