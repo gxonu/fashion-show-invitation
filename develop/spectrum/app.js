@@ -128,7 +128,7 @@ function showSeatResult(matches) {
   }
   const location = document.createElement('p');
   location.className = 'guest-location';
-  location.textContent = result.seats.map(seat => seat === 'VIP' ? 'VIP · V1 · V2 · 선착순' : /^V[12]$/.test(seat) ? `VIP · ${seat} · 선착순` : labelSeat(seat)).join(' / ');
+  location.textContent = result.seats.map(seat => seat === 'VIP' ? 'VIP · V1 · V2 · 선착순' : labelSeat(seat)).join(' / ');
   summary.append(location);
   summary.hidden = false;
   // Commit both views only after a successful lookup. Editing or cancelling keeps
