@@ -32,7 +32,7 @@ print(json.dumps(guests))
       await page.locator('#lookup-button').click();
       await page.locator('#ticket-result').waitFor({ state:'visible' });
       assert.equal(await page.locator('#ticket-dialog').isVisible(), true);
-      assert.equal(await page.locator('#home').isVisible(), true);
+      assert.equal(await page.locator('#about').isVisible(), true);
       if (/^v/i.test(example.seat)) {
         assert.equal(await page.locator('#ticket-seat-map .seat-active').count(), 0);
         if (example.seat === 'VIP') assert.equal(await page.locator('#ticket-seat-map .zone-first-come').count(), 2);

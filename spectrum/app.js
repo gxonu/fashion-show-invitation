@@ -25,7 +25,7 @@ for (const [zone, rows] of Object.entries(seatLayout)) {
     chairs[index].title = id;
   });
 }
-// Keep lookup results inside the ticket, without changing the page or URL.
+// Keep lookup results inside the ticket while the invitation continues underneath.
 const resultPanel = document.createElement('section');
 resultPanel.id = 'ticket-result';
 resultPanel.className = 'ticket-result';
@@ -47,9 +47,11 @@ let lookupVersion = 0;
 let dialogOpener = null;
 let currentPage = 'home';
 
-function goTo(page, { focus = true, history = true } = {}) {
+function goTo(page, { focus = true, history = true, closeDialogs = true } = {}) {
   if (!pages.some(el => el.id === page)) page = 'home';
-  for (const dialog of [ticketDialog, menuDialog]) if (dialog.open) dialog.close();
+  if (closeDialogs) {
+    for (const dialog of [ticketDialog, menuDialog]) if (dialog.open) dialog.close();
+  }
   for (const section of pages) section.hidden = section.id !== page;
   currentPage = page;
   document.querySelectorAll('#menu-dialog [data-go]').forEach(button => {
@@ -144,6 +146,10 @@ function showSeatResult(matches) {
   }
   phone.value = '';
   phone.blur();
+  if (currentPage === 'home') {
+    goTo('about', { focus: false, closeDialogs: false });
+    dialogOpener = document.querySelector('#about h1');
+  }
   form.hidden = true;
   resultPanel.hidden = false;
   ticketDialog.setAttribute('aria-labelledby', 'seat-summary');

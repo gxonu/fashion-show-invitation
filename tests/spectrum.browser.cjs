@@ -66,6 +66,7 @@ const results = [];
     assert.equal(await page.locator('#phone').inputValue(), '010 · 0000 · 0001');
     await page.screenshot({ path:path.join(output,'phone-format.png') });
     await page.locator('#seat-form [data-close]').click();
+    assert.equal(await page.locator('#home').isVisible(), true, 'Cancel keeps the invitation home');
     results.push('Automatic dot spacing, input focus, paste and editing across separators');
 
     async function lookup(number) {
@@ -79,6 +80,7 @@ const results = [];
     await page.locator('#phone').fill('01000000099');
     await page.locator('#lookup-button').click();
     await page.getByText('등록된 좌석이 없습니다.', { exact: false }).waitFor();
+    assert.equal(await page.locator('#home').isVisible(), true, 'Failed lookup must not advance');
     await page.screenshot({ path: path.join(output, 'ticket-error.png') });
     results.push('Invalid and unknown numbers rejected');
     for (const [phone,seat,expected] of [
@@ -95,7 +97,7 @@ const results = [];
       assert.equal(await page.locator('#seat-summary button').count(), 0);
       assert.equal(await page.locator('#ticket-dialog').isVisible(), true);
       assert.equal(await page.locator('#seat-form').isVisible(), false);
-      assert.equal(new URL(page.url()).hash, '#home');
+      assert.equal(new URL(page.url()).hash, '#about');
       assert.deepEqual(await page.locator('#seat-map').evaluate(map => [...map.querySelectorAll('.seat-active')].map(chair => chair.dataset.seat).sort()), [...expected].sort());
       assert.equal(await page.locator('#page-seat-summary').textContent(), await page.locator('#seat-summary').textContent());
       const selected = await page.locator('#ticket-seat-map').evaluate(map => [...map.querySelectorAll('.seat-active')].map(chair => chair.dataset.seat));
@@ -121,7 +123,7 @@ const results = [];
       await page.locator('#phone').fill(number);
       await page.locator('#lookup-button').click();
     }
-    await page.getByRole('button', {name:'행사정보 보기', exact:false}).click();
+    assert.equal(await page.locator('#about').isVisible(), true);
     await navigateTo('seats');
     await page.locator('#page-seat-summary').waitFor({state:'visible'});
     assert.equal(await page.locator('#seat-map .seat-active').count(), 3);
@@ -166,9 +168,10 @@ const results = [];
     await page.unroute('**/spectrum/seats.csv');
     await page.locator('#ticket-result [data-close]').click();
     assert.equal(await page.locator('#ticket-dialog').isVisible(), false);
-    assert.equal(await page.locator('#home').isVisible(), true);
-    assert.equal(new URL(page.url()).hash, '#home');
-    results.push('Compact ticket results show guest and exact seats without changing the page; close returns to home');
+    assert.equal(await page.locator('#about').isVisible(), true);
+    assert.equal(new URL(page.url()).hash, '#about');
+    await page.waitForFunction(() => document.activeElement === document.querySelector('#about h1'));
+    results.push('Successful home lookup keeps the ticket result open, then dismisses into show introduction with focus restored');
     await page.route('**/spectrum/seats.csv', route => route.fulfill({
       status:200, body:`phone_hash,seat,name,vip\n${testHash},VIP,테스트 관객 박상민,vip\n`,
     }));
