@@ -52,6 +52,7 @@ dialog{padding:0;margin:auto;width:calc(100% - 48px);max-width:342px;max-height:
 .ticket-panel [data-name="팝업 헤더"]{height:auto;min-height:44px;overflow:visible}
 
 /* Ticket result: identity, location and map only. The underlying page stays put. */
+#ticket-dialog:has(#ticket-result:not([hidden]))::backdrop{background:var(--background)}
 .ticket-result{padding:22px 18px 18px;border:1px solid #34343b;border-radius:20px;display:flex;flex-direction:column;gap:18px;background:#0b0b0e}
 .ticket-result-header{display:flex;align-items:flex-start;gap:12px}
 .ticket-result .guest-result{min-width:0;flex:1;padding-left:10px}
