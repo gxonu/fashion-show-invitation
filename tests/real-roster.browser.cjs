@@ -8,11 +8,12 @@ const base = process.env.SPECTRUM_URL || 'http://127.0.0.1:4175/spectrum/';
 
 (async () => {
   const examples = JSON.parse(execFileSync('python3', ['-c', `
-import json
+import json, os
 from pathlib import Path
 from scripts.prepare_spectrum_roster import read_rows
 examples = {}
-for number, row in read_rows(next(Path('private/rosters').glob('*.xlsx'))):
+roster = Path(os.environ.get('SPECTRUM_ROSTER', 'private/rosters/지정좌석.xlsx'))
+for number, row in read_rows(roster):
     if number == 1 or not row.get('C'): continue
     seat = row['B'].replace('_','-')
     group = seat[0].upper()
@@ -27,6 +28,7 @@ print(json.dumps(guests))
     const page = await browser.newPage({ viewport:{width:390,height:844}, isMobile:true, hasTouch:true });
     for (const example of examples) {
       await page.goto(base);
+      await page.waitForLoadState('networkidle');
       await page.getByRole('button', {name:'티켓 열기'}).click();
       await page.locator('#phone').fill(example.phone);
       await page.locator('#lookup-button').click();

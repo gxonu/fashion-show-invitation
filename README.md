@@ -48,6 +48,21 @@ python3 scripts/deploy_pages.py --roster private/rosters/lookup.json --include-d
 공개 버전 배포는 `main`에서만, `--preview` 배포는 `develop`에서만 실행할 수 있습니다. 공개 버전을 배포해도 개발 미리보기 경로는 유지됩니다. 엑셀·PDF 원본 대신 변환된 조회 데이터만 배포하며, `private/` 자료는 소스 브랜치에 포함하지 않습니다. 행사 운영 배포에서는 테스트 번호를 제외하려면 `--include-demo`를 생략합니다.
 피그마의 문구·행사 내용은 임의로 변경하지 않으며, 새 디자인 개선은 `develop`에서 관리합니다.
 
+### 2026-10-16 개발 버전 갱신
+
+- 좌석 조회 원본은 `private/rosters/지정좌석_2026-10-16.xlsx`입니다. 기존 별도 VIP 2명을 유지하며, 일반 지정석 157명·VIP 18명, 총 175개 번호입니다. 이전 명단에서 7개 번호가 추가됐으며 기존 번호의 배정은 동일합니다. 전화번호가 없는 43행은 조회 데이터에서 제외합니다.
+- 업데이트할 때는 아래처럼 원본 파일을 명시합니다. 엑셀·별도 VIP 원본은 Git과 배포에 포함하지 않습니다.
+
+```bash
+python3 scripts/prepare_spectrum_roster.py private/rosters/지정좌석_2026-10-16.xlsx
+python3 scripts/deploy_pages.py --preview --roster private/rosters/lookup.json --include-demo
+SPECTRUM_URL=http://127.0.0.1:4175/spectrum/ SPECTRUM_ROSTER=private/rosters/지정좌석_2026-10-16.xlsx node tests/real-roster.browser.cjs
+```
+
+- 모바일 이미지는 원본 PNG를 보존하고 WebP를 제공합니다. 쇼 소개 이미지는 표시 폭 342px의 3배인 1026px, 품질 90으로 변환했습니다. 약도와 메인 그림 두 장은 무손실 변환하여 픽셀이 동일합니다. 전시 이미지는 원본이 더 작아 PNG를 유지합니다.
+- 변환된 4개 이미지의 합계는 약 8.62MB에서 0.78MB로 감소했습니다. `python3 scripts/optimize_spectrum_images.py`로 재생성할 수 있으며, 일반 빌드에는 추가 도구가 필요하지 않습니다.
+- 같은 날 Figma 최신 화면을 확인했습니다. 메인 시간은 16:00–18:00, 전시·입장 시간은 16:00–17:00으로 변경됐고 타임라인의 리허설 항목이 삭제됐습니다. 전시 제목·디자이너 소개·좌석/입장 안내 문구도 변경됐습니다. 이 Figma 변경은 현재 확인 단계이며 이번 이미지 최적화에 문구 변경은 포함하지 않습니다.
+
 ## 실행
 
 Python 3만 필요하며 npm 설치나 프레임워크 빌드는 필요하지 않습니다.
