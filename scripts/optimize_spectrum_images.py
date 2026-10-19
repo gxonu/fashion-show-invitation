@@ -18,6 +18,7 @@ def main():
     settings = {
         # The design displays this at 342 CSS px; retain 3x pixel density.
         "about-img1": ["-q", "90", "-resize", "1026", "0"],
+        "exhibition-img1": ["-q", "90", "-resize", "1026", "0"],
         # Preserve map labels and transparent home artwork pixel-for-pixel.
         "directions-img1": ["-lossless", "-exact"],
         "home-img1": ["-lossless", "-exact"],

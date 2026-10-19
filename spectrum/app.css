@@ -11,6 +11,8 @@ dialog{padding:0;margin:auto;width:calc(100% - 48px);max-width:342px;max-height:
 .directions-content{position:relative;inset:auto;width:100%}
 .directions-content>[data-name="섹션 제목"],.directions-content>[data-name="약도"],.directions-content>[data-name="교통편"],.directions-content>.map-link{position:relative;inset:auto;width:100%;flex-shrink:0}
 #exhibition h1{min-width:0;width:100%;max-width:300px}
+/* Preserve the spacing supplied by the current Figma seating caption. */
+#seats [data-node-id="4:4151"]{white-space:pre-wrap}
 .ticket-panel [data-node-id="24:172"]{left:auto;right:-9px}
 @media(max-width:360px){.ticket-panel [data-name="티켓 노치"]{display:block}}
 
