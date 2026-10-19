@@ -1,6 +1,6 @@
 # Netlify mobile release
 
-Source: `develop` at `bdb091480bb6a159222919a377202892cc78c72d`.
+Source: `develop` at `004c6b198fb481df7a8017a19b65a60c6f2d6b54`.
 
 Connect this repository in Netlify with production branch `netlify`, publish directory `public`, and an empty build command.
 
