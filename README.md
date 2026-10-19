@@ -25,6 +25,7 @@
 | `main` | 현재 공개 버전의 소스와 검토가 완료된 변경 |
 | `develop` | UI/UX 개선 및 클라이언트 추가 요청 개발 |
 | `gh-pages` | 실제 GitHub Pages가 제공하는 빌드 파일 |
+| `netlify` | Netlify 자동 배포용 모바일 파일과 승인된 정적 좌석 데이터 |
 | `client-baseline-2026-10-10` | 개발 분리 시점의 소스 보존 태그 |
 
 현재 공개 배포 기준 커밋은 `gh-pages`의 `881fa956ea8ab0bf07f0c5a190cebf738ec275c6`입니다.
@@ -64,6 +65,28 @@ SPECTRUM_URL=http://127.0.0.1:4175/spectrum/ SPECTRUM_ROSTER=private/rosters/지
 - 같은 날 Figma 최신 화면을 확인했습니다. 메인 시간은 16:00–18:00, 전시·입장 시간은 16:00–17:00으로 변경됐고 타임라인의 리허설 항목이 삭제됐습니다. 전시 제목·디자이너 소개·좌석/입장 안내 문구도 변경됐습니다. 이 Figma 변경은 현재 확인 단계이며 이번 이미지 최적화에 문구 변경은 포함하지 않습니다.
 
 ## 실행
+
+### Netlify와 GitHub 연결
+
+Netlify의 `geonwoo` 팀에서 **Add new project → Import an existing project → GitHub**를 선택하고 `gxonu/fashion-show-invitation`을 연결합니다.
+
+| 설정 | 값 |
+| --- | --- |
+| Production branch | `netlify` |
+| Base directory | 비워 둠 |
+| Build command | 비워 둠 |
+| Publish directory | `public` |
+| 사이트 이름 후보 | `knu-spectrum-2026` (사용 가능 여부 확인) |
+
+`netlify` 브랜치의 설정 파일이 위 값을 지정합니다. 이 브랜치는 모바일 완성 파일만 제공하므로 첫 주소에서 바로 초대장이 열리고, 원본 엑셀이나 로컬 Python 없이 좌석을 조회합니다. 이름·좌석·전화번호 해시는 사용자가 승인한 공개 데이터이며, 엑셀·PDF·전화번호 원문은 포함하지 않습니다.
+
+개발은 `develop`에서 진행하고 검토한 버전을 아래 명령으로 `netlify` 브랜치에 갱신합니다. 이 브랜치의 새 커밋을 Netlify가 자동 배포하므로 ZIP 업로드가 필요 없습니다. 기존 `main`과 `gh-pages`는 변경하지 않습니다. 코드 변경은 먼저 커밋하며, 명단 변경 시에는 지정한 엑셀로 `lookup.json`을 다시 만든 뒤 실행합니다.
+
+```bash
+python3 scripts/deploy_netlify.py --roster private/rosters/lookup.json --include-demo
+```
+
+실제 행사 최종 명단에서는 `--include-demo`를 생략하면 테스트 번호가 빠집니다. `--dry-run`을 추가하면 원격 브랜치를 변경하지 않고 패키지를 검증합니다. 공개 공유 전에 Netlify 프로젝트의 Public 설정을 확인합니다.
 
 Python 3만 필요하며 npm 설치나 프레임워크 빌드는 필요하지 않습니다.
 
