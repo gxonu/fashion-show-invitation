@@ -1,5 +1,7 @@
 """Check import rules with synthetic rows, without reading attendee information."""
 import importlib.util
+import copy
+import hashlib
 from pathlib import Path
 import unittest
 from unittest.mock import patch
@@ -44,6 +46,38 @@ class SpectrumRosterTests(unittest.TestCase):
                 self.prepare([(2, {"B": seat, "C": "01000000001"})])
         with self.assertRaisesRegex(ValueError, "duplicate"):
             self.prepare([(2, {"B": "A-a-1", "C": "01000000001"}), (3, {"B": "A_a-1", "C": "01000000002"})])
+
+    def test_overrides_move_vip_to_chair_and_preserve_v2_registration(self):
+        lookup, _ = self.prepare([
+            (2, {"A": "Existing VIP", "B": "VIP", "C": "01000000001"}),
+            (3, {"A": "Unchanged", "B": "A-a-1", "C": "01000000002"}),
+        ])
+        before = copy.deepcopy(lookup)
+        result = roster.apply_guest_overrides(lookup, [
+            {"name": "Moved guest", "phone": "010-0000-0001", "seat": "D_c-3"},
+            {"name": "New VIP", "phone": "+82 10 0000 0003", "seat": "v2"},
+            {"name": "Legacy VIP", "phone": "01000000004"},
+        ])
+        key = lambda phone: hashlib.sha256(phone.encode()).hexdigest()
+        self.assertEqual(result[key("01000000001")], [{"seat": "D-c-3", "vip": "", "name": "Moved guest"}])
+        self.assertEqual(result[key("01000000002")], before[key("01000000002")])
+        self.assertEqual(result[key("01000000003")][0]["seat"], "V2")
+        self.assertEqual(result[key("01000000003")][0]["vip"], "vip")
+        self.assertEqual(result[key("01000000004")][0]["seat"], "VIP")
+        self.assertEqual(lookup, before)
+
+    def test_conflicting_or_invalid_overrides_do_not_mutate_lookup(self):
+        lookup, _ = self.prepare([(2, {"B": "D-c-3", "C": "01000000001"})])
+        before = copy.deepcopy(lookup)
+        for overrides in [
+            [{"phone": "01000000002", "seat": "D-c-3"}],
+            [{"phone": "01000000002", "seat": "D-c-5"}],
+            [{"phone": "invalid", "seat": "VIP"}],
+            [{"phone": "01000000002", "seat": "V1"}, {"phone": "010-0000-0002", "seat": "V2"}],
+        ]:
+            with self.subTest(overrides=overrides), self.assertRaises(ValueError):
+                roster.apply_guest_overrides(lookup, overrides)
+            self.assertEqual(lookup, before)
 
 
 if __name__ == "__main__":

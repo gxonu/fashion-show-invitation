@@ -85,6 +85,36 @@ def prepare(path):
     return lookup, dict(counts)
 
 
+def apply_guest_overrides(lookup, guests):
+    """Apply explicit registrations, including moves from VIP to assigned seats."""
+    updated, seen = dict(lookup), set()
+    for number, guest in enumerate(guests, 1):
+        phone = re.sub(r"[\s().·-]", "", guest["phone"])
+        if phone.startswith("+82"):
+            phone = "0" + phone[3:].lstrip("0")
+        if not re.fullmatch(r"0\d{9,10}", phone):
+            raise ValueError(f"Guest override {number}: invalid phone format")
+        key = hashlib.sha256(phone.encode()).hexdigest()
+        if key in seen:
+            raise ValueError(f"Guest override {number}: duplicate phone")
+        seen.add(key)
+        raw_seat = guest.get("seat", "VIP").strip()
+        is_vip = bool(re.fullmatch(r"VIP|V[12]", raw_seat, re.I))
+        if is_vip:
+            seat = raw_seat.upper()
+        else:
+            match = re.fullmatch(r"([A-F])(?:구역)?[\s_-]*([a-g])[\s_-]*([1-5])", raw_seat, re.I)
+            if not match or (match[2].lower() <= "e" and match[3] == "5"):
+                raise ValueError(f"Guest override {number}: seat is not present on PDF page 17")
+            seat = f"{match[1].upper()}-{match[2].lower()}-{match[3]}"
+        updated[key] = [{"seat": seat, "vip": "vip" if is_vip else "", "name": guest.get("name", "").strip()}]
+    # Check the final allocations so a correction cannot occupy another guest's chair.
+    assigned = [item["seat"] for rows in updated.values() for item in rows if item["vip"] != "vip"]
+    if len(assigned) != len(set(assigned)):
+        raise ValueError("Guest overrides: duplicate assigned seat")
+    return updated
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", type=Path)
@@ -93,15 +123,11 @@ def main():
     if not args.output.resolve().is_relative_to(ROOT / "private"):
         parser.error("Actual roster lookup output must stay under private/")
     lookup, counts = prepare(args.input)
-    # Keep explicit VIP registrations when a newer organizer workbook is imported.
+    # Keep explicit registrations when a newer organizer workbook is imported.
+    # The legacy filename supports optional seats; omitted seats still mean VIP.
     vip_guests = ROOT / "private/rosters/vip-guests.json"
     if vip_guests.is_file():
-        for guest in json.loads(vip_guests.read_text(encoding="utf-8")):
-            phone = re.sub(r"[\s().·-]", "", guest["phone"])
-            if not re.fullmatch(r"0\d{9,10}", phone):
-                parser.error("Invalid phone format in private VIP registrations")
-            key = hashlib.sha256(phone.encode()).hexdigest()
-            lookup[key] = [{"seat": "VIP", "vip": "vip", "name": guest.get("name", "").strip()}]
+        lookup = apply_guest_overrides(lookup, json.loads(vip_guests.read_text(encoding="utf-8")))
         counts["assigned"] = sum(item["vip"] != "vip" for rows in lookup.values() for item in rows)
         counts["vip"] = sum(item["vip"] == "vip" for rows in lookup.values() for item in rows)
     payload = {"lookup": lookup, "counts": counts}

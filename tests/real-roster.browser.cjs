@@ -20,7 +20,7 @@ for number, row in read_rows(roster):
     if group not in examples: examples[group] = {'phone': row['C'], 'seat': seat, 'name': row.get('A','')}
 guests = list(examples.values())
 for guest in json.loads(Path('private/rosters/vip-guests.json').read_text()):
-    guests.append({**guest, 'seat':'VIP'})
+    guests.append({**guest, 'seat':guest.get('seat', 'VIP')})
 print(json.dumps(guests))
   `], { cwd:root, encoding:'utf8' }));
   const browser = await chromium.launch({ channel:'chrome', headless:true });
